@@ -19,8 +19,12 @@
   "homepage": "https://github.com/nstraub/tic-tac-toe#readme",
   "devDependencies": {
     "jasmine-core": "^2.5.2",
+    "jasmine-sinon": "^0.4.0",
     "karma": "^1.3.0",
     "karma-coverage": "^1.1.1",
-    "karma-jasmine": "^1.0.2"
+    "karma-jasmine": "^1.0.2",
+    "karma-jasmine-sinon": "^1.0.4",
+    "karma-sinon": "^1.0.5",
+    "sinon": "^1.17.6"
   }
 }
