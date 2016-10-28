@@ -1,33 +1,37 @@
 describe('On Method', function () {
-    it('should register callbacks in the events object', function () {
-        var dispatcher = new Dispatcher(),
-            testFn = function () {};
+    var _dispatcher,
+        _testFn = function () {};
 
-        dispatcher.on('test', testFn);
-        expect(dispatcher.events.test.length).toBe(1);
-        expect(dispatcher.events.test[0]).toBe(testFn);
+    beforeEach(function () {
+        _dispatcher = new Dispatcher();
+    });
+
+    function callOn() {
+        _dispatcher.on('test', _testFn);
+    }
+
+    it('should register callbacks in the events object', function () {
+        callOn();
+
+        expect(_dispatcher.events.test.length).toBe(1);
+        expect(_dispatcher.events.test[0]).toBe(_testFn);
     });
 
     it('should allow for more than one callback per event', function () {
-        var dispatcher = new Dispatcher(),
-            testFn = function () {};
+        callOn();
+        callOn();
 
-        dispatcher.on('test', testFn);
-        dispatcher.on('test', testFn);
-
-        expect(dispatcher.events.test.length).toBe(2);
-        expect(dispatcher.events.test[0]).toBe(testFn);
-        expect(dispatcher.events.test[1]).toBe(testFn);
+        expect(_dispatcher.events.test.length).toBe(2);
+        expect(_dispatcher.events.test[0]).toBe(_testFn);
+        expect(_dispatcher.events.test[1]).toBe(_testFn);
     });
 
     it('should throw an error when first argument is not a string', function () {
-        var dispatcher = new Dispatcher();
-        expect(function () {dispatcher.on({}, function () {})}).toThrowError('event name must be a string');
+        expect(function () { _dispatcher.on({}, _testFn); }).toThrowError(TypeError, 'event name must be a string');
     });
 
     it('should throw an error when second argument is not a function', function () {
-        var dispatcher = new Dispatcher();
-        expect(function () {dispatcher.on('test', {})}).toThrowError('callback must be a function');
+        expect(function () { _dispatcher.on('test', {}); }).toThrowError(TypeError, 'callback must be a function');
     });
 
 });
