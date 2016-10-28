@@ -8,26 +8,26 @@ var Dispatcher = (function () {
     // this function receives participants from both patterns. `eventName` is the `Subject`
     // from the `Observer` pattern and callback is the `Colleague` from the `Mediator` pattern.
     Dispatcher.prototype.on = function (eventName, callback) {
-        if (typeof eventName !== 'string') {
-            throw new Error('event name must be a string');
-        } else if (typeof callback !== 'function') {
-            throw new Error('callback must be a function')
-        }
+        assert.isString(eventName, 'event name');
+        assert.isFunction(callback, 'callback');
 
         // `Subject` is added to the dictionary of Subjects
         this.events[eventName] = this.events[eventName] || [];
+
         // `Colleague` is registered as an `Observer` for the `Subject`
         this.events[eventName].push(callback);
     };
-    Dispatcher.prototype.trigger = function (eventName) {
-        if (typeof eventName !== 'string') {
-            throw new Error('event name must be a string');
-        }
 
-        if (this.events[eventName]) {
-            var args = Array.prototype.slice.call(arguments, 1);
+    Dispatcher.prototype.trigger = function (eventName) {
+        var args, events;
+
+        assert.isString(eventName, 'event name');
+        events = this.events[eventName];
+
+        if (events) {
+            args = Array.prototype.slice.call(arguments, 1);
             // the `Observer` pattern `Notification` process
-            this.events[eventName].forEach(function (callback) {
+            events.forEach(function (callback) {
                 callback.apply(this, args);
             });
         }
